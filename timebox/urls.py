@@ -26,8 +26,17 @@ from django.contrib.auth.views import(
     PasswordResetCompleteView,
 )
 
+
 class MyRegistrationView(RegistrationView):
     success_url = 'registration'
+
+
+# Router for api url's
+router = routers.DefaultRouter()
+router.register('users', api_views.UserViewSet)
+router.register('lists', api_views.ListViewSet)
+router.register('tasks', api_views.TaskViewSet)
+
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -39,6 +48,7 @@ urlpatterns = [
         {'template_name': 'registration/password_reset_complete.html'},
         name="password_reset_complete"),
     path('accounts/registration/', MyRegistrationView.as_view(), name='registration_register'),
+    path('api/', include((router.urls, 'core'), namespace='api')),
     path('accounts/', include('registration.backends.simple.urls')),
 
 ]

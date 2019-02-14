@@ -11,7 +11,7 @@ class TimeStamp(models.Model):
 
 class List(TimeStamp):
     title = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="lists")
     date = models.DateField(auto_now=False, auto_now_add=False)
     completed = models.BooleanField(default=False)
 
@@ -24,6 +24,7 @@ class List(TimeStamp):
 class Task(TimeStamp):
     name = models.CharField(max_length=250)
     time_allocated = models.DurationField()
+    time_remaining = models.DurationField()
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     category = models.CharField(max_length=20)
     completed = models.BooleanField(default=False)
