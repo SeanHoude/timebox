@@ -1,0 +1,73 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>
+      {% block title %} Timebox {% endblock title %}
+    </title>
+
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="LxRKXxbx-5TCeA5NckaoDS_KytGGYo-N3X4J7rtMd3Q" />
+    <meta name="google-site-verification" content="T9nLocSBThIav4QXdlONfHdcJ1wsTi4L4C7fntxV9Mo" />
+    
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <script src="{% static 'js/vuemain.js' %}" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+
+    {% block header %}{% endblock header %}
+  
+  </head>
+
+<div class="nav">
+  <div class="nav-header">
+    <div class="nav-title">
+      <a href="{% url 'home' %}">
+        <img class="pr1" src="{% static 'images/LocalGems_Logo.png' %}" width="150" height="40">
+      </a>
+    </div>
+  </div>
+  
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+
+  <input type="checkbox" id="nav-check">
+  <div class="nav-links">
+    <a href="https://github.com/Teamalpha/Stumbl">See the Github repo</a>
+  {% if user.is_authenticated %}
+    <a href="{% url 'auth_logout' %}">Logout</a>
+  {% else %}
+    <a href="{% url 'auth_login' %}"><strong>Login</strong></a>
+    <a href="{% url 'registration_register' %}"><strong>Sign up</strong></a>
+  {% endif %}
+  </div>
+</div>
+
+{% if user.is_authenticated %}
+<input type="hidden" id="request-user-pk" value="{{ request.user.pk }}">
+{% else %}
+<input type="hidden" id="request-user-pk" value="-1">
+{% endif %}
+<input type="hidden" id="request-user" value="{{ request.user }}">
+
+<body>
+    {% block content %}{% endblock content %}
+    {% block footer %}{% endblock footer %}
+</body>
+</html>
